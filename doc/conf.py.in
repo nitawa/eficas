@@ -83,7 +83,13 @@ pygments_style = 'sphinx'
 # The style sheet to use for HTML and HTML Help pages. A file of that name
 # must exist either in Sphinx' static/ path, or in one of the custom paths
 # given in html_static_path.
-html_theme = '@SPHINX_THEME@'
+html_theme = 'default'
+themes_options = {}
+themes_options['classic'] = {
+  'body_max_width':'none',
+  'body_min_width':0,
+}
+html_theme_options = themes_options.get(html_theme, {})
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
