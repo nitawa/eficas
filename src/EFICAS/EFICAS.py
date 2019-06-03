@@ -81,7 +81,7 @@ class EFICAS(EFICAS_ORB__POA.EFICAS_Gen,
                   interfaceName):
         print ("EFICAS.__init__: ", containerName,' ', instanceName)
         SALOME_ComponentPy.SALOME_ComponentPy_i.__init__(self, orb, poa,
-                    contID, containerName,instanceName, interfaceName, 0 )
+                    contID, containerName,instanceName, interfaceName )
         SALOME_DriverPy_i.__init__( self, 'OTHER' )                    
         # On stocke dans l'attribut _naming_service, une reference sur
         # le Naming Service CORBA
