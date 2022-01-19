@@ -22,6 +22,7 @@
 # scripts / static
 SET(_bin_SCRIPTS
   EFICAS.py
+  EFICAS_SalomeSessionless.py
 )
 
 # --- rules ---

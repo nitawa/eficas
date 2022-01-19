@@ -21,6 +21,7 @@
 import EFICAS_ORB__POA
 import SALOMEDS__POA
 import SALOME_ComponentPy
+import SALOME_Embedded_NamingService_ClientPy
 
 class SALOME_DriverPy_i(SALOMEDS__POA.Driver):
     """
@@ -85,4 +86,11 @@ class EFICAS(EFICAS_ORB__POA.EFICAS_Gen,
         SALOME_DriverPy_i.__init__( self, 'OTHER' )                    
         # On stocke dans l'attribut _naming_service, une reference sur
         # le Naming Service CORBA
-        self._naming_service=SALOME_ComponentPy.SALOME_NamingServicePy_i(self._orb)
+        #
+        emb_ns = self._contId.get_embedded_NS_if_ssl()
+        import CORBA
+        if CORBA.is_nil(emb_ns):
+            self._naming_service = SALOME_ComponentPy.SALOME_NamingServicePy_i( self._orb )
+        else:
+            self._naming_service = SALOME_Embedded_NamingService_ClientPy.SALOME_Embedded_NamingService_ClientPy(emb_ns)
+        #
