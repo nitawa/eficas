@@ -46,6 +46,9 @@ ELSE()
   MESSAGE(FATAL_ERROR "We absolutely need the Salome CMake configuration files, please define CONFIGURATION_ROOT_DIR !")
 ENDIF()
 
+SALOME_SETUP_VERSION(${${PROJECT_NAME_UC}_VERSION})
+MESSAGE(STATUS "Building ${PROJECT_NAME_UC} ${${PROJECT_NAME_UC}_VERSION} from \"${${PROJECT_NAME_UC}_GIT_SHA1}\"")
+
 # Find KERNEL
 # ===========
 SET(KERNEL_ROOT_DIR $ENV{KERNEL_ROOT_DIR} CACHE PATH "Path to the Salome KERNEL")
@@ -210,3 +213,6 @@ INSTALL(FILES
 # Install the export set for use with the install-tree
 INSTALL(EXPORT ${PROJECT_NAME}TargetGroup DESTINATION "${SALOME_INSTALL_CMAKE_LOCAL}" 
   FILE ${PROJECT_NAME}Targets.cmake)
+
+# Install __init__.py for versionning:
+SALOME_CONFIGURE_FILE(src/EFICAS/__init__.py __init__.py INSTALL ${SALOME_INSTALL_PYTHON}/salome/eficas)
