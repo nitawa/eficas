@@ -26,13 +26,22 @@ from PyQt5.QtWidgets import QMessageBox
 from salome.kernel.studyedit import getStudyEditor
 import SalomePyQt
 import salome
+from launchConfigureParser import userFile, salomecfgname, salomeappname, xml_parser
 
 
 sgPyQt = SalomePyQt.SalomePyQt()
 
-# -----------------------------------------------------------------------------
+def findSalomeLanguage():
+    debug = 0
+    language = None
+    configFile=userFile(salomeappname, salomecfgname)
+    if debug : print ('configFile',configFile)
+    parser = xml_parser(configFile,{},[])
+    language=parser.opts['language_language']
+    if debug : print ('salome language',language)
+    return language
 
-print("EFicasGUI :: :::::::::::::::::::::::::::::::::::::::::::::::::::::")
+salomeLanguage = findSalomeLanguage()
 
 # Test Eficas directory
 eficasRoot = os.getenv("EFICAS_ROOT")

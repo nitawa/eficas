@@ -67,7 +67,7 @@ class MyEficas(qt_eficas.QtEficasAppli):
     b)la visualisation d'elements geometrique dans le coposant GEOM de SALOME par selection dans EFICAS
     """
     def __init__(self, parent, code=None, fichier=None, module="EFICAS",
-                 version=None, componentName="Eficas", multi=False, lang=None):
+                 version=None, componentName="Eficas", multi=False ):
         """
         Constructeur.
         @type   parent:
@@ -85,22 +85,17 @@ class MyEficas(qt_eficas.QtEficasAppli):
             pathCode = dictPathCode[code]
             sys.path[:0] = [os.path.join(eficasConfig.eficasPath, pathCode)]
 
-        # inutile depuis Salome
-        #if 'session' in Editeur.__dict__:
-        #    from Editeur import session
-        #    eficasArg = []
-        #    eficasArg += sys.argv
-        #    if fichier:
-        #        eficasArg += [fichier]
-        #    if version:
-        #        eficasArg += ["-c", version]
-        #    # else:
-        #    #    print("noversion")
-        #    session.parse(eficasArg)
+        from Editeur import session
+        options = session.parse(['eficasFromSalome'])
 
         self.editor = getStudyEditor()  # Editeur de l'arbre d'etude
 
-        langue = lang or str(sgPyQt.stringSetting("language", "language"))
+        lang = str(sgPyQt.stringSetting("language", "language"))
+        # les deux methodes conviennent pour trouver la langue
+        # cela permet de se souvenir comment utiliser le launchConfigureParser
+        from EFICASGUI import salomeLanguage
+        langue = salomeLanguage
+        if lang != langue : print ("WARNING : pb sur le langage")
 
         #qt_eficas.Appli.__init__(self, code=code, salome=1, parent=parent, multi=multi, langue=langue)
         qt_eficas.QtEficasAppli.__init__(self, code=code, salome=1,  multi=multi, langue=langue, parent=parent)
@@ -129,7 +124,7 @@ class MyEficas(qt_eficas.QtEficasAppli):
         if hasattr(self, 'readercata'):
             del self.readercata
 
-        from Extensions.param2 import originalMath
+        from Accas.extensions.param2 import originalMath
         originalMath.toOriginal()
 
         global appli
