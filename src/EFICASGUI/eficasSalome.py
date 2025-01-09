@@ -38,10 +38,15 @@ import eficasConfig
 # acceder au module prefs.py. A
 # ajout de InterfaceQT4 pour permettre l acces a la fenetre Option
 sys.path[:0] = [eficasConfig.eficasPath,
+                os.path.join(eficasConfig.eficasPath, 'Editeur'),
+                os.path.join(eficasConfig.eficasPath, 'UiQT5'),
+                os.path.join(eficasConfig.eficasPath, 'InterfaceQT4'),
+                # os.path.join( eficasConfig.eficasPath,'Extensions'),
+                eficasConfig.eficasPath,
                 ]
 
-#import Editeur
-from InterfaceGUI.QT5 import qt_eficas
+import Editeur
+from InterfaceQT4 import qtEficas
 
 import salome
 import SalomePyQt
@@ -55,11 +60,11 @@ import colors
 COLORS = colors.ListeColors
 LEN_COLORS = len(COLORS)
 
-#from Extensions import localisation
-#localisation.localise(None, langue)
+from Extensions import localisation
+localisation.localise(None, langue)
 
 
-class MyEficas(qt_eficas.QtEficasAppli):
+class MyEficas(qtEficas.Appli):
     """
     Classe de lancement du logiciel EFICAS dans SALOME
     Cette classe specialise le logiciel Eficas par l'ajout de:
@@ -67,7 +72,7 @@ class MyEficas(qt_eficas.QtEficasAppli):
     b)la visualisation d'elements geometrique dans le coposant GEOM de SALOME par selection dans EFICAS
     """
     def __init__(self, parent, code=None, fichier=None, module="EFICAS",
-                 version=None, componentName="Eficas", multi=False ):
+                 version=None, componentName="Eficas", multi=False, lang=None):
         """
         Constructeur.
         @type   parent:
@@ -85,20 +90,23 @@ class MyEficas(qt_eficas.QtEficasAppli):
             pathCode = dictPathCode[code]
             sys.path[:0] = [os.path.join(eficasConfig.eficasPath, pathCode)]
 
-        from Editeur import session
-        options = session.parse(['eficasFromSalome'])
+        if 'session' in Editeur.__dict__:
+            from Editeur import session
+            eficasArg = []
+            eficasArg += sys.argv
+            if fichier:
+                eficasArg += [fichier]
+            if version:
+                eficasArg += ["-c", version]
+            # else:
+            #    print("noversion")
+            session.parse(eficasArg)
 
         self.editor = getStudyEditor()  # Editeur de l'arbre d'etude
 
-        lang = str(sgPyQt.stringSetting("language", "language"))
-        # les deux methodes conviennent pour trouver la langue
-        # cela permet de se souvenir comment utiliser le launchConfigureParser
-        from EFICASGUI import salomeLanguage
-        langue = salomeLanguage
-        if lang != langue : print ("WARNING : pb sur le langage")
+        langue = lang or str(sgPyQt.stringSetting("language", "language"))
 
-        #qt_eficas.Appli.__init__(self, code=code, salome=1, parent=parent, multi=multi, langue=langue)
-        qt_eficas.QtEficasAppli.__init__(self, code=code, salome=1,  multi=multi, langue=langue, parent=parent)
+        qtEficas.Appli.__init__(self, code=code, salome=1, parent=parent, multi=multi, langue=langue)
 
         # --------------- specialisation EFICAS dans SALOME  -------------------
         self.parent = parent
@@ -124,7 +132,7 @@ class MyEficas(qt_eficas.QtEficasAppli):
         if hasattr(self, 'readercata'):
             del self.readercata
 
-        from Accas.extensions.param2 import originalMath
+        from Extensions.param2 import originalMath
         originalMath.toOriginal()
 
         global appli
