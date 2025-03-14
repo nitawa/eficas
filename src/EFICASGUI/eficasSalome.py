@@ -37,8 +37,17 @@ import eficasConfig
 # logiciel Eficas. Le package Aster est ajoute explicitement pour
 # acceder au module prefs.py. A
 # ajout de InterfaceQT4 pour permettre l acces a la fenetre Option
-sys.path[:0] = [eficasConfig.eficasPath,
-                ]
+sys.path[:0] = [eficasConfig.eficasPath, ]
+
+GUIPath='QT5'
+if "EFICAS_TOOLS_ROOT"  in  os.environ:
+   eficasToolPath = os.environ["EFICAS_TOOLS_ROOT"]
+   interfacePath=os.path.join(eficasToolPath,'InterfaceGUI',GUIPath)
+   sys.path[:0] = [interfacePath]
+else :
+   print ('______________________________')
+   print ('definir EFICAS_TOOLS_ROOT')
+   print ('______________________________')
 
 #import Editeur
 from InterfaceGUI.QT5 import qt_eficas
@@ -83,7 +92,7 @@ class MyEficas(qt_eficas.QtEficasAppli):
 
         if code in dictPathCode:
             pathCode = dictPathCode[code]
-            sys.path[:0] = [os.path.join(eficasConfig.eficasPath, pathCode)]
+            sys.path[:0] = [os.path.join(eficasConfig.eficasPath, 'Codes', pathCode)]
 
         from Editeur import session
         options = session.parse(['eficasFromSalome'])
