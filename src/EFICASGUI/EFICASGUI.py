@@ -36,8 +36,11 @@ def findSalomeLanguage():
     language = None
     configFile=userFile(salomeappname, salomecfgname)
     if debug : print ('configFile',configFile)
-    parser = xml_parser(configFile,{},[])
-    language=parser.opts['language_language']
+    try:
+       parser = xml_parser(configFile,{},[])
+       language=parser.opts['language_language']
+    except:
+       language ='en_US'
     if debug : print ('salome language',language)
     return language
 
