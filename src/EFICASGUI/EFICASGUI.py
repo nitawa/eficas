@@ -23,9 +23,9 @@
 import os
 
 from PyQt5.QtWidgets import QMessageBox
-from salome.kernel.studyedit import getStudyEditor
+from salome.kernel.salome.kernel.studyedit import getStudyEditor
 import SalomePyQt
-import salome
+from salome.kernel import salome
 from launchConfigureParser import userFile, salomecfgname, salomeappname, xml_parser
 
 

@@ -18,15 +18,15 @@
 #
 
 import salomedsgui
-import salome
+from salome.kernel import salome
 
-import SALOMEDS
+from salome.kernel import SALOMEDS
 try:
-    import SMESH
+    from salome.kernel import SMESH
 except ImportError:
     pass
 
-from salome.kernel.logger import Logger
+from salome.kernel.salome.kernel.logger import Logger
 logger = Logger("EficasStudy")
 
 

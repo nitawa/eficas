@@ -28,7 +28,7 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QMessageBox
 
 
-from salome.kernel.logger import Logger
+from salome.kernel.salome.kernel.logger import Logger
 logger = Logger("EFICAS_SRC.EFICASGUI.eficasSalome.py")
 
 import eficasConfig
@@ -52,12 +52,12 @@ else :
 #import Editeur
 from InterfaceGUI.QT5 import qt_eficas
 
-import salome
+from salome.kernel import salome
 import SalomePyQt
 sgPyQt = SalomePyQt.SalomePyQt()
 langue = str(sgPyQt.stringSetting("language", "language"))
 
-from salome.kernel.studyedit import getStudyEditor
+from salome.kernel.salome.kernel.studyedit import getStudyEditor
 
 # couleur pour visualisation des geometries
 import colors
@@ -160,7 +160,7 @@ class MyEficas(qt_eficas.QtEficasAppli):
     def giveMeshGroups(self, entry, label1, typeMesh):
         msg = None
         names = []
-        import SMESH
+        from salome.kernel import SMESH
         try:
             monMaillage = self.getCORBAObjectInComponent(entry, "SMESH")
             if monMaillage is not None:  # selection d'un groupe de SMESH
@@ -191,7 +191,7 @@ class MyEficas(qt_eficas.QtEficasAppli):
 
     def isMeshGroup(self, entry):
         result = False
-        import SMESH
+        from salome.kernel import SMESH
         try:
             monObjet = self.getCORBAObjectInComponent(entry, "SMESH")
             if monObjet is not None:  # selection d'un groupe de SMESH
@@ -203,7 +203,7 @@ class MyEficas(qt_eficas.QtEficasAppli):
 
     def isMesh(self, entry):
         result = False
-        import SMESH
+        from salome.kernel import SMESH
         try:
             monObjet = self.getCORBAObjectInComponent(entry, "SMESH")
             if monObjet is not None:  # selection d'un groupe de SMESH
@@ -215,7 +215,7 @@ class MyEficas(qt_eficas.QtEficasAppli):
 
     def getMesh(self, entry):
         meshObject = None
-        import SMESH
+        from salome.kernel import SMESH
         try:
             monObjet = self.getCORBAObjectInComponent(entry, "SMESH")
             if monObjet is not None:  # selection d'un groupe de SMESH
@@ -226,7 +226,7 @@ class MyEficas(qt_eficas.QtEficasAppli):
 
     def isShape(self, entry):
         result = False
-        import GEOM
+        from salome.kernel import GEOM
         try:
             monObjet = self.getCORBAObjectInComponent(entry, "GEOM")
             if monObjet is not None:  # selection d'un objet GEOM
@@ -253,7 +253,7 @@ class MyEficas(qt_eficas.QtEficasAppli):
         result = False
         try:
             monObjet = self.getCORBAObjectInComponent(entry, "GEOM")
-            import GEOM
+            from salome.kernel import GEOM
             shape = monObjet._narrow(GEOM.GEOM_Object)
             if shape.IsMainShape():
                 result = True
@@ -298,7 +298,7 @@ class MyEficas(qt_eficas.QtEficasAppli):
         if sobject is None:
             return name, msgError
 
-        import GEOM
+        from salome.kernel import GEOM
         shape = sobject._narrow(GEOM.GEOM_Object)
         if not shape:
             return name, msgError
@@ -343,7 +343,7 @@ class MyEficas(qt_eficas.QtEficasAppli):
         if not groupObject:
             logger.debug("selectedMeshEntry: An error occurs")
 
-        import SMESH
+        from salome.kernel import SMESH
         aGroup = groupObject._narrow(SMESH.SMESH_GroupBase)
         if aGroup:
             tGroup = aGroup.GetType()
@@ -640,7 +640,7 @@ class MyEficas(qt_eficas.QtEficasAppli):
 
     def ChercheGrpMeshInSalome(self):
         print("je passe par la")
-        import SMESH
+        from salome.kernel import SMESH
         names, msg = [], ''
         try:
             entries = salome.sg.getAllSelected()
@@ -654,7 +654,7 @@ class MyEficas(qt_eficas.QtEficasAppli):
         return(msg, names)
 
     def ChercheGrpMailleInSalome(self):
-        import SMESH
+        from salome.kernel import SMESH
         names, msg = [], ''
         try:
             entries = salome.sg.getAllSelected()

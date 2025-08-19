@@ -20,8 +20,8 @@
 
 import EFICAS_ORB__POA
 import SALOMEDS__POA
-import SALOME_ComponentPy
-import SALOME_Embedded_NamingService_ClientPy
+from salome.kernel import SALOME_ComponentPy
+from salome.kernel import SALOME_Embedded_NamingService_ClientPy
 
 class SALOME_DriverPy_i(SALOMEDS__POA.Driver):
     """
