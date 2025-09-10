@@ -215,4 +215,4 @@ INSTALL(EXPORT ${PROJECT_NAME}TargetGroup DESTINATION "${SALOME_INSTALL_CMAKE_LO
   FILE ${PROJECT_NAME}Targets.cmake)
 
 # Install __init__.py for versionning:
-SALOME_CONFIGURE_FILE(src/EFICAS/__init__.py __init__.py INSTALL ${SALOME_INSTALL_PYTHON}/salome/eficas)
+SALOME_CONFIGURE_FILE(src/EFICAS/__init__.py __init__.py INSTALL ${SALOME_INSTALL_PYTHON}/eficas)
