@@ -24,8 +24,7 @@ import re
 import sys
 import traceback
 
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWidgets import QMessageBox
+from PySide2.QtWidgets import QApplication, QMessageBox
 
 
 from salome.kernel.salome.kernel.logger import Logger
