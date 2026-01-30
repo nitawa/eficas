@@ -22,12 +22,15 @@
 
 import os
 
-from PyQt5.QtWidgets import QMessageBox
 from salome.kernel.salome.kernel.studyedit import getStudyEditor
 import SalomePyQt
 from salome.kernel import salome
 from launchConfigureParser import userFile, salomecfgname, salomeappname, xml_parser
 
+if SalomePyQt.usePySide():
+   from PySide2.QtWidgets import QMessageBox
+else:
+   from PyQt5.QtWidgets import QMessageBox
 
 sgPyQt = SalomePyQt.SalomePyQt()
 

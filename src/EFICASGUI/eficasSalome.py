@@ -24,8 +24,12 @@ import re
 import sys
 import traceback
 
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWidgets import QMessageBox
+import SalomePyQt
+if SalomePyQt.usePySide():
+   from PySide2.QtWidgets import QApplication, QMessageBox
+else:
+   from PyQt5.QtWidgets import QApplication
+   from PyQt5.QtWidgets import QMessageBox
 
 
 from salome.kernel.salome.kernel.logger import Logger
@@ -53,7 +57,6 @@ else :
 from InterfaceGUI.QT5 import qt_eficas
 
 from salome.kernel import salome
-import SalomePyQt
 sgPyQt = SalomePyQt.SalomePyQt()
 langue = str(sgPyQt.stringSetting("language", "language"))
 
